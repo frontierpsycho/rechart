@@ -13,9 +13,9 @@ require([
   'use strict';
 
   var data = {
-    "Poor": 0.05,
-    "Middle class": 0.65,
-    "Rich": 0.30
+    "Poor": 5,
+    "Middle class": 65,
+    "Rich": 30
   };
 
   var refreshChart = function(chart) {
@@ -48,7 +48,7 @@ require([
       fixLower: "major",
       fixUpper: "major"
     })
-    .addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major", min: 0, max: 1 });
+    .addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major", min: 0, max: 100 });
 
   for (var category in data) {
     if (data.hasOwnProperty(category)) {
@@ -62,10 +62,13 @@ require([
   $("#rich").on("drag", function(event) {
     var originalEvent = event.originalEvent;
     var delta = (originalEvent.pageY - dragstart);
-    var normalizedDelta = delta / 600.0; // divide by chart height in pixels so that move is proportional to chart height visually
 
-    console.debug("delta:", delta, "normalizedDelta:", normalizedDelta, Math.abs(delta));
-    if (data["Rich"] + normalizedDelta < 0 || data["Rich"] > 1 || originalEvent.pageY == 0) {
+    // divide by chart height in pixels so that move is proportional to chart height visually
+    // but also multiply by 100 because we represent 0.3 as 30%
+    var normalizedDelta = delta / 6.0;
+
+    console.debug("delta:", delta, "normalizedDelta:", normalizedDelta);
+    if (data["Rich"] + normalizedDelta < 0 || data["Rich"] > 100 || originalEvent.pageY == 0) {
       // don't move point too far, don't move at the end of dragging, when pageY is 0
       return;
     }
