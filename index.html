@@ -7,7 +7,13 @@
 <body>
     <h1>Recharting</h1>
 
-	<div id="chartNode" style="width: 800px; height: 600px;"></div>
+	<div id="chartNode" style="width: 800px; height: 600px; display: inline-block"></div>
+
+	<div id="controls" style="display: inline-block; vertical-align: middle; height: 600px;">
+		<div id="rich" draggable="true">Rich</div>
+		<div id="middle-class" draggable="true">Middle class</div>
+		<div id="poor" draggable="true">Poor</div>
+	</div>
     <!-- configure Dojo -->
     <script>
         // Instead of using data-dojo-config, we're creating a dojoConfig
@@ -26,7 +32,8 @@
     </script>
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.0/dojo/dojo.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
  
-    <script src="js/main.js"></script>
+    <script src="js/rechart.js"></script>
 </body>
 </html>
