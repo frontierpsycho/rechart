@@ -27,7 +27,7 @@ require([
     chart.render();
   };
 
-  // Create the chart within it's "holding" node
+  // Create the chart within its "holding" node
   var chart = new Chart("chartNode");
  
   // Set the theme
