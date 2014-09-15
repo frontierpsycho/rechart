@@ -1,10 +1,12 @@
 require([
+    "rechart/PercentageCollection",
     "dojox/charting/Chart",
     "dojox/charting/axis2d/Default",
     "dojox/charting/themes/Wetland",
     "dojox/charting/plot2d/StackedColumns",
     'dojo/domReady!'
 ], function (
+  PercentageCollection,
   Chart,
   Default,
   theme,
@@ -18,10 +20,12 @@ require([
     "Rich": 30
   };
 
+  var collection = PercentageCollection(data);
+
   var refreshChart = function(chart) {
-    for (var category in data) {
-      if (data.hasOwnProperty(category)) {
-        chart.updateSeries(category, [data[category]]);
+    for (var category in collection.data) {
+      if (collection.data.hasOwnProperty(category)) {
+        chart.updateSeries(category, [collection.data[category].value]);
       }
     }
     chart.render();
@@ -50,9 +54,9 @@ require([
     })
     .addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major", min: 0, max: 100 });
 
-  for (var category in data) {
-    if (data.hasOwnProperty(category)) {
-      chart.addSeries(category, [data[category]]);
+  for (var category in collection.data) {
+    if (collection.data.hasOwnProperty(category)) {
+      chart.addSeries(category, [collection.data[category].value]);
     }
   }
   chart.render();
@@ -67,16 +71,17 @@ require([
     // but also multiply by 100 because we represent 0.3 as 30%
     var normalizedDelta = delta / 6.0;
 
-    if (data["Rich"] + normalizedDelta < 0 || data["Rich"] > 100 || originalEvent.pageY == 0) {
+    if (collection.data["Rich"] + normalizedDelta < 0 || collection.data["Rich"] > 100 || originalEvent.pageY == 0) {
       // don't move point outside [0, 100], don't move at the end of dragging, when pageY is 0
       return;
     }
 
-    var threshold = 5; // limit repaintings
+    var threshold = 4; // limit repaintings
     
     if(Math.abs(delta) > threshold) {
-      data["Rich"] += normalizedDelta;
-      data["Middle class"] -= normalizedDelta;
+      collection.modify("Rich", normalizedDelta);
+      //data["Rich"] += normalizedDelta;
+      //data["Middle class"] -= normalizedDelta;
       dragstart = originalEvent.pageY;
       refreshChart(chart);
     }
