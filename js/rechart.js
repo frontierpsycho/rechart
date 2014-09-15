@@ -67,9 +67,8 @@ require([
     // but also multiply by 100 because we represent 0.3 as 30%
     var normalizedDelta = delta / 6.0;
 
-    console.debug("delta:", delta, "normalizedDelta:", normalizedDelta);
     if (data["Rich"] + normalizedDelta < 0 || data["Rich"] > 100 || originalEvent.pageY == 0) {
-      // don't move point too far, don't move at the end of dragging, when pageY is 0
+      // don't move point outside [0, 100], don't move at the end of dragging, when pageY is 0
       return;
     }
 
