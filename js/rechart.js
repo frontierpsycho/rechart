@@ -91,5 +91,9 @@ require([
     dragstart = event.originalEvent.pageY;
     console.debug("Setting dragstart", dragstart);
   });
+
+  $("#lock-poor").on("change", function(event) {
+    collection.data.Poor.locked = $(event.target).prop("checked");
+  });
 });
 

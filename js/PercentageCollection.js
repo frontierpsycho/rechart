@@ -30,7 +30,7 @@ define(function() {
       if (this.data.hasOwnProperty(category)) {
         var otherCategories = [];
         for (var otherCategory in this.data) {
-          if (otherCategory !== category && otherCategory.locked !== true) {
+          if (otherCategory !== category && this.data[otherCategory].locked !== true) {
             otherCategories.push(otherCategory);
           }
         }
@@ -46,7 +46,7 @@ define(function() {
         }
 
         // if the category we want to modify is locked, unlock it, there's not reason for it to be locked
-        this.data.locked = false;
+        this.data[category].locked = false;
         this.data[category].value += amount
 
         // recalculate for rounding and floating point imprecisions
@@ -56,7 +56,7 @@ define(function() {
 
     that.lock = function(category) {
       if (this.data.hasOwnProperty(category)) {
-        this.data.locked = true;
+        this.data[category].locked = true;
       }
     };
 
